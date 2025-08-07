@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Siamo - TR Trasporti | Storia e Valori della Nostra Azienda</title>
+    <meta name="description" content="Scopri la storia di TR Trasporti, azienda leader nei servizi di sgombero a Catania. Oltre 10 anni di esperienza, professionalità e affidabilità.">
+    <meta name="keywords" content="chi siamo TR Trasporti, storia azienda sgombero catania, team professionale, esperienza trasporti">
+    <link rel="canonical" href="https://sgomberocataniasicilia.it/chi-siamo.html">
+    <link rel="icon" href="/favicon.ico">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/chi-siamo.css">
+</head>
+<body>
+    <!-- Header (same as index.html) -->
+    <header id="header" class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/>
+                            <path d="M15 18H9"/>
+                            <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/>
+                            <circle cx="17" cy="18" r="2"/>
+                            <circle cx="7" cy="18" r="2"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <h1>TR Trasporti</h1>
+                        <p>Sgombero Catania</p>
+                    </div>
+                </div>
+
+                <!-- Phone Number - Desktop -->
+                <div class="phone-desktop">
+                    <a href="tel:3490073264" class="phone-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        <span>3490073264</span>
+                    </a>
+                </div>
+
+                <!-- Navigation - Desktop -->
+                <nav class="nav-desktop">
+                    <a href="index.html" class="nav-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9,22 9,12 15,12 15,22"/>
+                        </svg>
+                        <span>Home</span>
+                    </a>
+                    
+                    <div class="dropdown">
+                        <button class="nav-link dropdown-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <span>Servizi</span>
+                            <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6,9 12,15 18,9"/>
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu">
+                            <h3>Comuni di Catania</h3>
+                            <div class="comuni-grid" id="comuni-grid">
+                                <!-- Comuni will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="chi-siamo.html" class="nav-link active">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        <span>Chi Siamo</span>
+                    </a>
+
+                    <a href="blog.html" class="nav-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                        </svg>
+                        <span>Blog</span>
+                    </a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobile-menu">
+                <div class="mobile-menu-content">
+                    <a href="index.html" class="mobile-nav-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9,22 9,12 15,12 15,22"/>
+                        </svg>
+                        <span>Home</span>
+                    </a>
+                    <a href="chi-siamo.html" class="mobile-nav-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        <span>Chi Siamo</span>
+                    </a>
+                    <a href="blog.html" class="mobile-nav-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                        </svg>
+                        <span>Blog</span>
+                    </a>
+                    <a href="tel:3490073264" class="mobile-phone-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        <span>3490073264</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-chi-siamo">
+            <div class="hero-bg">
+                <img src="assets/IMG-20250629-WA0028.jpg" alt="Team TR Trasporti" class="hero-image">
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-icon">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+
+                    <h1 class="hero-title">
+                        <span class="gradient-text">Chi Siamo</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        La storia di <strong>TR Trasporti</strong>, un'azienda familiare che da oltre un decennio 
+                        si dedica con passione ai servizi di sgombero e trasporti in Sicilia.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section class="story-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title gradient-text">La Nostra Storia</h2>
+                </div>
+
+                <div class="story-grid">
+                    <div class="story-content">
+                        <div class="story-card">
+                            <div class="story-icon">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/>
+                                    <path d="M15 18H9"/>
+                                    <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/>
+                                    <circle cx="17" cy="18" r="2"/>
+                                    <circle cx="7" cy="18" r="2"/>
+                                </svg>
+                            </div>
+                            
+                            <h3>I Nostri Inizi</h3>
+                            <p>
+                                <strong>TR Trasporti</strong> nasce nel 2013 dall'intuizione e dalla determinazione di una famiglia siciliana 
+                                che ha deciso di trasformare la propria esperienza nel settore dei trasporti in un servizio 
+                                professionale dedicato agli sgomberi.
+                            </p>
+                            <p>
+                                Quello che è iniziato come un piccolo servizio locale è cresciuto fino a diventare 
+                                un punto di riferimento per tutta la provincia di Catania, grazie alla nostra 
+                                dedizione alla qualità e alla soddisfazione del cliente.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">2013</div>
+                            <div class="timeline-content">
+                                <h4>Fondazione</h4>
+                                <p>Nasce TR Trasporti come azienda familiare</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2016</div>
+                            <div class="timeline-content">
+                                <h4>Espansione</h4>
+                                <p>Ampliamento dei servizi in tutta la provincia</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2019</div>
+                            <div class="timeline-content">
+                                <h4>Specializzazione</h4>
+                                <p>Focus sui servizi di sgombero professionale</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2024</div>
+                            <div class="timeline-content">
+                                <h4>Leadership</h4>
+                                <p>Oltre 5000 clienti soddisfatti</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="values-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">I Nostri Valori</h2>
+                    <p class="section-description">Principi che guidano ogni nostra azione e decisione</p>
+                </div>
+
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">❤️</div>
+                        <h3>Passione</h3>
+                        <p>Amiamo quello che facciamo e lo facciamo con dedizione totale</p>
+                        <div class="value-stat">100% Passione</div>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">🛡️</div>
+                        <h3>Affidabilità</h3>
+                        <p>La fiducia dei nostri clienti è il nostro bene più prezioso</p>
+                        <div class="value-stat">Zero Compromessi</div>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">🎯</div>
+                        <h3>Precisione</h3>
+                        <p>Ogni dettaglio conta per garantire un servizio impeccabile</p>
+                        <div class="value-stat">Massima Cura</div>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">⭐</div>
+                        <h3>Eccellenza</h3>
+                        <p>Puntiamo sempre al massimo della qualità in ogni servizio</p>
+                        <div class="value-stat">Top Quality</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title gradient-text">Il Nostro Team</h2>
+                    <p class="section-description">Professionisti esperti al vostro servizio</p>
+                </div>
+
+                <div class="team-grid">
+                    <div class="team-card">
+                        <div class="team-image">
+                            <img src="assets/IMG-20250629-WA0029.jpg" alt="Team operatori TR Trasporti" loading="lazy">
+                        </div>
+                        <div class="team-content">
+                            <h3>Operatori Specializzati</h3>
+                            <p>Team di professionisti formati per ogni tipo di sgombero</p>
+                            <div class="team-stat">15+ Operatori</div>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-image">
+                            <img src="assets/IMG-20250629-WA0030.jpg" alt="Coordinatori TR Trasporti" loading="lazy">
+                        </div>
+                        <div class="team-content">
+                            <h3>Coordinatori Esperti</h3>
+                            <p>Supervisori che garantiscono qualità e tempistiche</p>
+                            <div class="team-stat">5+ Coordinatori</div>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-image">
+                            <img src="assets/IMG-20250629-WA0031.jpg" alt="Servizio clienti TR Trasporti" loading="lazy">
+                        </div>
+                        <div class="team-content">
+                            <h3>Servizio Clienti</h3>
+                            <p>Assistenza dedicata per ogni vostra esigenza</p>
+                            <div class="team-stat">24/7 Supporto</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section class="mission-section">
+            <div class="container">
+                <div class="mission-content">
+                    <h3>La Nostra Missione</h3>
+                    <p>
+                        Rendere ogni sgombero un'esperienza <strong>semplice, veloce e senza stress</strong> per i nostri clienti, 
+                        garantendo sempre il massimo della professionalità e del rispetto per l'ambiente.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2 class="cta-title">Scopri la Differenza TR Trasporti!</h2>
+                    <p class="cta-description">
+                        Affidati alla nostra esperienza decennale per il tuo prossimo sgombero. 
+                        Chiamaci ora per un preventivo gratuito!
+                    </p>
+                    
+                    <div class="cta-buttons">
+                        <a href="tel:3490073264" class="btn btn-cta">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            <span class="cta-phone">3490073264</span>
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9,18 15,12 9,6"/>
+                            </svg>
+                        </a>
+                        
+                        <a href="https://wa.me/393490073264?text=Ciao!%20Vorrei%20informazioni%20sui%20vostri%20servizi%20di%20sgombero." target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
+                            <span>💬</span>
+                            <span>WhatsApp</span>
+                        </a>
+                    </div>
+
+                    <p class="cta-features">
+                        ⭐ Oltre 10 anni di esperienza • 🚛 Servizio professionale • 💯 Soddisfazione garantita
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/393490073264?text=Ciao!%20Vorrei%20informazioni%20sui%20vostri%20servizi%20di%20sgombero." target="_blank" rel="noopener noreferrer" class="whatsapp-float">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+    </a>
+
+    <!-- Call Button - Mobile -->
+    <a href="tel:3490073264" class="call-float">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+    </a>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title gradient-text">TR Trasporti</h3>
+                    <p class="footer-description">
+                        Servizio professionale di sgombero e trasporti a Catania e provincia. 
+                        Esperienza, affidabilità e prezzi competitivi.
+                    </p>
+                    <div class="footer-buttons">
+                        <a href="tel:3490073264" class="footer-btn footer-btn-call">Chiama Ora</a>
+                        <a href="https://wa.me/393490073264" class="footer-btn footer-btn-whatsapp">WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">I Nostri Servizi</h4>
+                    <ul class="footer-list">
+                        <li>• Sgombero Appartamenti</li>
+                        <li>• Sgombero Cantine</li>
+                        <li>• Trasporti e Traslochi</li>
+                        <li>• Smaltimento Rifiuti</li>
+                        <li>• Pulizie Post-Sgombero</li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">Contatti</h4>
+                    <div class="footer-contact">
+                        <p class="footer-phone">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            <span class="phone-highlight">3490073264</span>
+                        </p>
+                        <p>📍 Catania e Provincia</p>
+                        <p>🕒 Disponibili 7 giorni su 7</p>
+                        <p>💰 Preventivo Gratuito</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 TR Trasporti - Sgombero Catania Sicilia. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>
