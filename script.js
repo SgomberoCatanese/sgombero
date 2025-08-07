@@ -1,406 +1,598 @@
-// Comuni di Catania
-const comuniCatania = [
-    'Aci Bonaccorsi', 'Aci Castello', 'Aci Catena', 'Aci Sant\'Antonio', 'Acireale',
-    'Adrano', 'Belpasso', 'Biancavilla', 'Bronte', 'Calatabiano', 'Caltagirone',
-    'Camporotondo Etneo', 'Castel di Iudica', 'Castiglione di Sicilia', 'Catania',
-    'Fiumefreddo di Sicilia', 'Giarre', 'Gravina di Catania', 'Grammichele',
-    'Licodia Eubea', 'Linguaglossa', 'Maletto', 'Maniace', 'Mascali', 'Mascalucia',
-    'Mazzarrone', 'Militello in Val di Catania', 'Milo', 'Mineo', 'Mirabella Imbaccari',
-    'Misterbianco', 'Motta Sant\'Anastasia', 'Nicolosi', 'Palagonia', 'Paterno',
-    'Pedara', 'Piedimonte Etneo', 'Ragalna', 'Ramacca', 'Randazzo', 'Riposto',
-    'San Cono', 'San Giovanni la Punta', 'San Gregorio di Catania', 'San Michele di Ganzaria',
-    'San Pietro Clarenza', 'Sant\'Agata li Battiati', 'Sant\'Alfio', 'Santa Maria di Licodia',
-    'Santa Venerina', 'Scordia', 'Trecastagni', 'Tremestieri Etneo', 'Valverde',
-    'Viagrande', 'Vizzini', 'Zafferana Etnea'
-];
-
-// Utility function to create slug from comune name
-function getSlugFromComune(comune) {
-    return comune
-        .toLowerCase()
-        .replace(/'/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/[àáâãäå]/g, 'a')
-        .replace(/[èéêë]/g, 'e')
-        .replace(/[ìíîï]/g, 'i')
-        .replace(/[òóôõö]/g, 'o')
-        .replace(/[ùúûü]/g, 'u');
-}
-
-// DOM Elements
-const header = document.getElementById('header');
-const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-const mobileMenu = document.getElementById('mobile-menu');
-const dropdown = document.querySelector('.dropdown');
-const dropdownBtn = document.querySelector('.dropdown-btn');
-const comuniGrid = document.getElementById('comuni-grid');
-const particlesContainer = document.getElementById('particles-container');
-
-// Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
-    initializeHeader();
-    initializeMobileMenu();
-    initializeDropdown();
-    populateComuni();
-    initializeParticles();
-    initializeScrollAnimations();
-    initializeSmoothScrolling();
-    initializeIntersectionObserver();
-});
-
-// Header scroll effect
-function initializeHeader() {
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
-}
-
-// Mobile menu functionality
-function initializeMobileMenu() {
-    mobileMenuBtn.addEventListener('click', function() {
-        mobileMenuBtn.classList.toggle('active');
-        mobileMenu.classList.toggle('active');
-        
-        // Prevent body scroll when menu is open
-        if (mobileMenu.classList.contains('active')) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-    });
-
-    // Close mobile menu when clicking on links
-    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-    mobileNavLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            mobileMenuBtn.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-    });
-
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-            mobileMenuBtn.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    });
-}
-
-// Dropdown functionality
-function initializeDropdown() {
-    dropdownBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        dropdown.classList.toggle('active');
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!dropdown.contains(e.target)) {
-            dropdown.classList.remove('active');
-        }
-    });
-}
-
-// Populate comuni in dropdown
-function populateComuni() {
-    comuniCatania.forEach((comune, index) => {
-        const link = document.createElement('a');
-        link.href = `sgombero-${getSlugFromComune(comune)}.html`;
-        link.textContent = comune;
-        link.style.animationDelay = `${index * 0.02}s`;
-        
-        // Add click event to close dropdown
-        link.addEventListener('click', function() {
-            dropdown.classList.remove('active');
-        });
-        
-        comuniGrid.appendChild(link);
-    });
-}
-
-// Particle system
-function initializeParticles() {
-    const particleCount = window.innerWidth > 768 ? 20 : 10;
-    
-    function createParticle() {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        
-        // Random size and position
-        const size = Math.random() * 6 + 2;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.animationDelay = `${Math.random() * 8}s`;
-        particle.style.animationDuration = `${Math.random() * 4 + 6}s`;
-        
-        particlesContainer.appendChild(particle);
-        
-        // Remove particle after animation
-        setTimeout(() => {
-            if (particle.parentNode) {
-                particle.parentNode.removeChild(particle);
-            }
-        }, 10000);
-    }
-    
-    // Create initial particles
-    for (let i = 0; i < particleCount; i++) {
-        setTimeout(() => createParticle(), i * 200);
-    }
-    
-    // Continuously create new particles
-    setInterval(createParticle, 800);
-}
-
-// Scroll animations
-function initializeScrollAnimations() {
-    const animatedElements = document.querySelectorAll('.service-card, .gallery-item, .why-us-card, .feature-card');
-    
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.animationPlayState = 'running';
-                entry.target.classList.add('animate-in');
-            }
-        });
-    }, observerOptions);
-    
-    animatedElements.forEach(element => {
-        element.style.animationPlayState = 'paused';
-        observer.observe(element);
-    });
-}
-
-// Smooth scrolling for anchor links
-function initializeSmoothScrolling() {
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
-    
-    anchorLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId);
-            
-            if (targetElement) {
-                const headerHeight = header.offsetHeight;
-                const targetPosition = targetElement.offsetTop - headerHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-}
-
-// Intersection Observer for advanced animations
-function initializeIntersectionObserver() {
-    const observerOptions = {
-        threshold: 0.2,
-        rootMargin: '0px 0px -100px 0px'
-    };
-    
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-                
-                // Add staggered animation for child elements
-                const children = entry.target.querySelectorAll('.service-features li, .gallery-item, .why-us-card');
-                children.forEach((child, index) => {
-                    setTimeout(() => {
-                        child.classList.add('animate-in');
-                    }, index * 100);
-                });
-            }
-        });
-    }, observerOptions);
-    
-    // Observe sections
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-}
-
-// Performance optimizations
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Optimized scroll handler
-const optimizedScrollHandler = debounce(function() {
-    // Add any scroll-based animations here
-}, 16); // ~60fps
-
-window.addEventListener('scroll', optimizedScrollHandler);
-
-// Lazy loading for images
-function initializeLazyLoading() {
-    const images = document.querySelectorAll('img[loading="lazy"]');
-    
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src || img.src;
-                    img.classList.remove('lazy');
-                    imageObserver.unobserve(img);
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>STR Sgomberi Catania - Sgombero GRATIS in Cambio di Merce | Il Migliore di Catania</title>
+<meta content="STR Sgomberi Catania: SGOMBERO GRATIS in cambio di merce di valore! Il servizio più conveniente e professionale di Catania. Chiamaci: 3497500613. Rete specializzata con sgomberocatania.it, sgomberosicilia.it, sgomberocantinecatania.it" name="description"/>
+<meta content="sgombero gratis catania, sgombero in cambio merce, sgombero gratuito catania, STR sgomberi, sgombero appartamenti gratis, sgombero cantine gratis, sgombero conveniente catania, sgomberocatania.it, sgomberosicilia.it, sgomberocantinecatania.it, miglior servizio sgombero catania" name="keywords"/>
+<meta content="index, follow" name="robots"/>
+<meta content="STR Sgomberi" name="author"/>
+<meta content="STR Sgomberi Catania - Sgombero GRATIS in Cambio di Merce | Il Migliore di Catania" property="og:title"/>
+<meta content="STR Sgomberi Catania: SGOMBERO GRATIS in cambio di merce di valore! Il servizio più conveniente e professionale di Catania. Chiamaci: 3497500613" property="og:description"/>
+<meta content="website" property="og:type"/>
+<meta content="https://cataniasgombero.it" property="og:url"/>
+<link href="https://cataniasgombero.it" rel="canonical"/>
+<link href="/favicon.ico" rel="icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "STR Sgomberi - Sgombero Gratis Catania",
+        "description": "STR Sgomberi: Sgombero GRATIS in cambio di merce di valore. Il miglior servizio di sgombero a Catania e provincia",
+        "telephone": "+393497500613",
+        "url": "https://cataniasgombero.it",
+        "sameAs": [
+            "https://sgomberocatania.it",
+            "https://sgomberosicilia.it", 
+            "https://sgomberocantinecatania.it"
+        ],
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Catania",
+            "addressRegion": "Sicilia",
+            "addressCountry": "IT"
+        },
+        "serviceArea": "Catania",
+        "priceRange": "GRATIS",
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Servizi Sgombero",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Sgombero Gratis in Cambio Merce"
+                    }
                 }
-            });
-        });
-        
-        images.forEach(img => imageObserver.observe(img));
-    }
-}
-
-// Initialize lazy loading
-initializeLazyLoading();
-
-// Phone number click tracking (for analytics)
-function trackPhoneClick() {
-    // Add your analytics tracking code here
-    console.log('Phone number clicked');
-}
-
-// WhatsApp click tracking (for analytics)
-function trackWhatsAppClick() {
-    // Add your analytics tracking code here
-    console.log('WhatsApp button clicked');
-}
-
-// Add event listeners for tracking
-document.addEventListener('click', function(e) {
-    if (e.target.closest('a[href^="tel:"]')) {
-        trackPhoneClick();
-    }
-    
-    if (e.target.closest('a[href*="wa.me"]')) {
-        trackWhatsAppClick();
-    }
-});
-
-// Error handling
-window.addEventListener('error', function(e) {
-    console.error('JavaScript error:', e.error);
-});
-
-// Service Worker registration (for PWA capabilities)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
-                console.log('ServiceWorker registration successful');
-            })
-            .catch(function(err) {
-                console.log('ServiceWorker registration failed');
-            });
-    });
-}
-
-// Add CSS animation classes
-const style = document.createElement('style');
-style.textContent = `
-    .animate-in {
-        animation: fadeInUp 0.8s ease-out forwards;
-    }
-    
-    @keyframes fadeInUp {
-        0% {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        100% {
-            opacity: 1;
-            transform: translateY(0);
+            ]
         }
     }
-    
-    .lazy {
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-    
-    .lazy.loaded {
-        opacity: 1;
-    }
-`;
-document.head.appendChild(style);
+</script>
+</head>
+<body>
+<div id="particles-container"></div>
+<header class="header" id="header">
+<div class="container">
+<div class="header-content">
+<div class="logo">
+<div class="logo-icon">
+<svg fill="none" height="32" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="32">
+<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+<path d="M15 18H9"></path>
+<path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
+<circle cx="17" cy="18" r="2"></circle>
+<circle cx="7" cy="18" r="2"></circle>
+</svg>
+</div>
+<div class="logo-text">
+<h1>STR Sgomberi</h1>
+<p>Sgombero Gratis Catania</p>
+</div>
+</div>
+<div class="phone-desktop">
+<a class="phone-btn" href="tel:3497500613">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="24">
+<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+</svg>
+<span>3497500613</span>
+</a>
+</div>
+<nav class="nav-desktop">
+<a class="nav-link" href="#home">
+<svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20">
+<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+<polyline points="9,22 9,12 15,12 15,22"></polyline>
+</svg>
+<span>Home</span>
+</a>
+<div class="dropdown">
+<button class="nav-link dropdown-btn">
+<svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20">
+<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+<circle cx="12" cy="10" r="3"></circle>
+</svg>
+<span>Servizi</span>
+<svg class="dropdown-arrow" fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<polyline points="6,9 12,15 18,9"></polyline>
+</svg>
+</button>
+<div class="dropdown-menu">
+<h3>Comuni di Catania</h3>
+<div class="comuni-grid" id="comuni-grid">
+</div>
+</div>
+</div>
+<a class="nav-link" href="chi-siamo.html">
+<svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20">
+<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+<circle cx="9" cy="7" r="4"></circle>
+<path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+</svg>
+<span>Chi Siamo</span>
+</a>
+<a class="nav-link" href="blog.html">
+<svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20">
+<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+</svg>
+<span>Blog</span>
+</a>
+</nav>
+<button class="mobile-menu-btn" id="mobile-menu-btn">
+<span></span>
+<span></span>
+<span></span>
+</button>
+</div>
+<div class="mobile-menu" id="mobile-menu">
+<div class="mobile-menu-content">
+<a class="mobile-nav-link" href="#home">
+<svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20">
+<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+<polyline points="9,22 9,12 15,12 15,22"></polyline>
+</svg>
+<span>Home</span>
+</a>
+<a class="mobile-nav-link" href="chi-siamo.html">
+<svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20">
+<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+<circle cx="9" cy="7" r="4"></circle>
+<path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+</svg>
+<span>Chi Siamo</span>
+</a>
+<a class="mobile-nav-link" href="blog.html">
+<svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20">
+<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+</svg>
+<span>Blog</span>
+</a>
+<a class="mobile-phone-btn" href="tel:3497500613">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="24">
+<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+</svg>
+<span>3497500613</span>
+</a>
+</div>
+</div>
+</div>
+</header>
+<main>
+<section class="hero" id="home">
+<div class="hero-bg">
+<img alt="STR Sgomberi - Sgombero Gratis in Cambio Merce Catania" class="hero-image" src="public/20250802_1802_Sgombero con Furgoni IVECO_remix_01k1nr403jfb1t7szh5nk0x2m5.png" style="object-fit: cover; width: 100%; height: 100%; filter: none;"/>
+</div>
+<div class="floating-shapes">
+<div class="shape shape-1"></div>
+<div class="shape shape-2"></div>
+<div class="shape shape-3"></div>
+</div>
+<div class="container">
+<div class="hero-content" style="color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); padding-top: 6rem;">
+<div class="hero-icon">
+<svg fill="none" height="80" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="80">
+<path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+<path d="M2 17l10 5 10-5"></path>
+<path d="M2 12l10 5 10-5"></path>
+</svg>
+</div>
+<h1 class="hero-title" style="color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">
+<span class="gradient-text" style="color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">Sgombero GRATIS</span>
+<span class="hero-subtitle" style="color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">in Cambio di Merce</span>
+</h1>
+<p class="hero-description" style="color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">
+<strong style="color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">STR Sgomberi</strong> - Il PRIMO servizio di <strong>sgombero GRATUITO</strong> a Catania! 
+Valutiamo la tua merce e ti offriamo lo sgombero gratis. Rete specializzata con <strong>sgomberocatania.it</strong>, <strong>sgomberosicilia.it</strong> e <strong>sgomberocantinecatania.it</strong>
+</p>
+<div class="hero-buttons">
+<a class="btn btn-primary btn-phone" href="tel:3497500613">
+<svg fill="none" height="28" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="28">
+<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+</svg>
+<span class="phone-number" style="color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">3497500613</span>
+<svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="24">
+<polyline points="9,18 15,12 9,6"></polyline>
+</svg>
+</a>
+<a class="btn btn-secondary" href="#servizi">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="24">
+<path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+</svg>
+<span style="color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">Sgombero Gratis</span>
+</a>
+</div>
+<div class="features-grid">
+<div class="feature-card feature-1">
+<div class="feature-icon">
+<svg fill="none" height="32" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="32">
+<path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+</svg>
+</div>
+<p style="color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">100% Gratis</p>
+</div>
+<div class="feature-card feature-2">
+<div class="feature-icon">
+<svg fill="none" height="32" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="32">
+<path d="M9 12l2 2 4-4"></path>
+<path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c2.35 0 4.48.9 6.08 2.38"></path>
+</svg>
+</div>
+<p style="color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">Valutazione Merce</p>
+</div>
+<div class="feature-card feature-3">
+<div class="feature-icon">
+<svg fill="none" height="32" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="32">
+<circle cx="12" cy="12" r="10"></circle>
+<polyline points="12,6 12,12 16,14"></polyline>
+</svg>
+</div>
+<p style="color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">Servizio Rapido</p>
+</div>
+<div class="feature-card feature-4">
+<div class="feature-icon">
+<svg fill="none" height="32" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="32">
+<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+</svg>
+</div>
+<p style="color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">Rete Specializzata</p>
+</div>
+</div>
+</div>
+</div>
+</section>
 
-// Preload critical resources
-function preloadCriticalResources() {
-    const criticalImages = [
-        'assets/IMG-20250629-WA0025.jpg',
-        'assets/IMG-20250629-WA0028.jpg'
-    ];
-    
-    criticalImages.forEach(src => {
-        const link = document.createElement('link');
-        link.rel = 'preload';
-        link.as = 'image';
-        link.href = src;
-        document.head.appendChild(link);
-    });
-}
+<section class="featured-service" style="padding: 60px 0; background-color: #f9f9f9;">
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 40px;">
 
-// Initialize preloading
-preloadCriticalResources();
+        <div class="featured-image" style="flex: 1; min-width: 300px;">
+            <img src="public/20250802_1901_Sgombero con Squadra STR_remix_01k1nvh2yye4xb79eedsy81dve.png" alt="STR Sgomberi - Squadra professionale per sgombero gratis Catania" style="width: 100%; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+        </div>
 
-// Add keyboard navigation support
-document.addEventListener('keydown', function(e) {
-    // ESC key closes mobile menu and dropdown
-    if (e.key === 'Escape') {
-        mobileMenuBtn.classList.remove('active');
-        mobileMenu.classList.remove('active');
-        dropdown.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-});
+        <div class="featured-content" style="flex: 1; min-width: 300px;">
+            <h2 class="section-title gradient-text" style="font-size: 2.5rem; margin-bottom: 20px;">STR Sgomberi - Il Rivoluzionario Servizio GRATIS</h2>
+            <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px;">
+                Sei alla ricerca del <strong>miglior servizio di sgombero a Catania</strong>? STR Sgomberi ti offre lo <strong>SGOMBERO COMPLETAMENTE GRATIS</strong> in cambio di merce di valore! La nostra rete specializzata include <strong><a href="https://sgomberocatania.it" target="_blank">sgomberocatania.it</a></strong>, <strong><a href="https://sgomberosicilia.it" target="_blank">sgomberosicilia.it</a></strong> e <strong><a href="https://sgomberocantinecatania.it" target="_blank">sgomberocantinecatania.it</a></strong> per garantirti il servizio più completo della Sicilia.
+            </p>
+            <a class="btn btn-primary" href="tel:3497500613" style="font-size: 1.2rem; padding: 15px 30px; text-transform: uppercase; letter-spacing: 1px;">
+                <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="24" style="vertical-align: middle; margin-right: 10px;">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                Valutazione Gratuita Immediata
+            </a>
+        </div>
 
-// Focus management for accessibility
-function manageFocus() {
-    const focusableElements = document.querySelectorAll(
-        'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
-    );
-    
-    focusableElements.forEach(element => {
-        element.addEventListener('focus', function() {
-            this.style.outline = '2px solid #3b82f6';
-            this.style.outlineOffset = '2px';
-        });
-        
-        element.addEventListener('blur', function() {
-            this.style.outline = '';
-            this.style.outlineOffset = '';
-        });
-    });
-}
+    </div>
+</section>
 
-// Initialize focus management
-manageFocus();
-
-console.log('TR Trasporti website initialized successfully! 🚛');
+<section class="services" id="servizi">
+<div class="container">
+<div class="section-header">
+<h2 class="section-title gradient-text">I Nostri Servizi Rivoluzionari</h2>
+<p class="section-description">Il primo servizio di sgombero GRATIS a Catania - Rete specializzata leader in Sicilia</p>
+</div>
+<div class="services-grid">
+<div class="service-card">
+<div class="service-icon">💰</div>
+<h3>Sgombero GRATIS in Cambio Merce</h3>
+<p>Il nostro servizio rivoluzionario: valutiamo la tua merce e ti offriamo lo sgombero completamente gratuito!</p>
+<ul class="service-features">
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Valutazione professionale gratuita
+</li>
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Sgombero 100% gratuito
+</li>
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Ritiro immediato merce di valore
+</li>
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Servizio esclusivo STR Sgomberi
+</li>
+</ul>
+</div>
+<div class="service-card">
+<div class="service-icon">🏠</div>
+<h3>Sgombero Appartamenti Premium</h3>
+<p>Servizio completo per appartamenti con la rete specializzata <strong>sgomberocatania.it</strong></p>
+<ul class="service-features">
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Sgombero completo mobili e suppellettili
+</li>
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Valutazione antiquariato e oggetti di valore
+</li>
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Pulizia finale inclusa
+</li>
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Rete <a href="https://sgomberocatania.it" target="_blank">sgomberocatania.it</a>
+</li>
+</ul>
+</div>
+<div class="service-card">
+<div class="service-icon">🏚️</div>
+<h3>Sgombero Cantine Specializzato</h3>
+<p>Esperti in cantine con <strong>sgomberocantinecatania.it</strong> - Il servizio più specializzato di Catania</p>
+<ul class="service-features">
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Specialisti in sgombero cantine
+</li>
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Ricerca oggetti di antiquariato
+</li>
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Pulizia e sanificazione
+</li>
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Rete <a href="https://sgomberocantinecatania.it" target="_blank">sgomberocantinecatania.it</a>
+</li>
+</ul>
+</div>
+<div class="service-card">
+<div class="service-icon">🌍</div>
+<h3>Copertura Sicilia Completa</h3>
+<p>Servizio esteso in tutta la Sicilia con <strong>sgomberosicilia.it</strong></p>
+<ul class="service-features">
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Copertura tutta la Sicilia
+</li>
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Rete specializzata regionale
+</li>
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Logistica avanzata
+</li>
+<li>
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22,4 12,14.01 9,11.01"></polyline>
+</svg>
+Rete <a href="https://sgomberosicilia.it" target="_blank">sgomberosicilia.it</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="gallery">
+<div class="container">
+<div class="section-header">
+<h2 class="section-title gradient-text">I Nostri Lavori - Rete STR Sgomberi</h2>
+<p class="section-description">Esempi dei nostri interventi con la rete specializzata più grande di Catania</p>
+</div>
+<div class="gallery-grid">
+<div class="gallery-item">
+<img alt="STR Sgomberi - Sgombero gratis appartamento Catania" loading="lazy" src="public/20250804_1555_Sgombero a Catania_remix_01k1tnpqp4ewjvwmtz2xtt8p5a.png"/>
+<div class="gallery-overlay">
+<h3>Sgombero Gratis Appartamento</h3>
+<p>Intervento gratuito con valutazione merce</p>
+</div>
+</div>
+<div class="gallery-item">
+<img alt="STR Sgomberi - Furgoni IVECO per sgombero professionale" loading="lazy" src="public/20250802_1802_Sgombero con Furgoni IVECO_remix_01k1nr403jfb1t7szh5nk0x2m5.png"/>
+<div class="gallery-overlay">
+<h3>Flotta Furgoni IVECO</h3>
+<p>Mezzi professionali per ogni esigenza</p>
+</div>
+</div>
+<div class="gallery-item">
+<img alt="STR Sgomberi - Squadra specializzata sgombero Catania" loading="lazy" src="public/20250802_1901_Sgombero con Squadra STR_remix_01k1nvh2yye4xb79eedsy81dve.png"/>
+<div class="gallery-overlay">
+<h3>Squadra STR Specializzata</h3>
+<p>Team di esperti per sgombero gratis</p>
+</div>
+</div>
+<div class="gallery-item">
+<img alt="STR Sgomberi - Servizio completo sgombero Catania" loading="lazy" src="public/Copilot_20250802_182615_22_11zon_10_11zon.webp"/>
+<div class="gallery-overlay">
+<h3>Servizio Completo</h3>
+<p>Dalla valutazione al ritiro finale</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="why-us">
+<div class="container">
+<div class="section-header">
+<h2 class="section-title">Perché STR Sgomberi è il Migliore di Catania?</h2>
+<p class="section-description">La rete più grande e specializzata della Sicilia con servizio GRATIS rivoluzionario</p>
+</div>
+<div class="why-us-grid">
+<div class="why-us-card">
+<div class="why-us-icon">🏆</div>
+<h3>Primo Servizio GRATIS</h3>
+<p>Siamo i PRIMI a Catania ad offrire sgombero completamente gratuito in cambio di merce di valore</p>
+<div class="why-us-stat">100% Gratis</div>
+</div>
+<div class="why-us-card">
+<div class="why-us-icon">🌐</div>
+<h3>Rete Specializzata Leader</h3>
+<p>La più grande rete specializzata: sgomberocatania.it, sgomberosicilia.it, sgomberocantinecatania.it</p>
+<div class="why-us-stat">4 Siti Specializzati</div>
+</div>
+<div class="why-us-card">
+<div class="why-us-icon">⚡</div>
+<h3>Valutazione Immediata</h3>
+<p>Esperti antiquari per valutazione immediata e gratuita della tua merce di valore</p>
+<div class="why-us-stat">Valutazione Express</div>
+</div>
+</div>
+</div>
+</section>
+<section class="cta">
+<div class="container">
+<div class="cta-content">
+<h2 class="cta-title">Scopri il Rivoluzionario Sgombero GRATIS!</h2>
+<p class="cta-description">
+Il PRIMO servizio di sgombero completamente GRATUITO a Catania! 
+Chiamaci ora per la valutazione gratuita della tua merce.
+</p>
+<div class="cta-buttons">
+<a class="btn btn-cta" href="tel:3497500613">
+<svg fill="none" height="32" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="32">
+<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+</svg>
+<span class="cta-phone">3497500613</span>
+<svg fill="none" height="28" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="28">
+<polyline points="9,18 15,12 9,6"></polyline>
+</svg>
+</a>
+<a class="btn btn-whatsapp" href="https://wa.me/393497500613?text=Ciao!%20Vorrei%20informazioni%20sul%20vostro%20servizio%20di%20sgombero%20GRATIS%20in%20cambio%20di%20merce!" rel="noopener noreferrer" target="_blank">
+<span>💬</span>
+<span>WhatsApp</span>
+</a>
+</div>
+<p class="cta-features">
+🏆 Il Migliore di Catania • 💰 100% Gratis • 🌐 Rete Specializzata • ⚡ Valutazione Immediata
+</p>
+<div style="margin-top: 30px; text-align: center;">
+<p style="font-size: 18px; opacity: 0.9; margin-bottom: 15px;">
+<strong>La Nostra Rete Specializzata:</strong>
+</p>
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+<a href="https://sgomberocatania.it" target="_blank" style="color: white; text-decoration: underline; font-weight: bold;">sgomberocatania.it</a>
+<a href="https://sgomberosicilia.it" target="_blank" style="color: white; text-decoration: underline; font-weight: bold;">sgomberosicilia.it</a>
+<a href="https://sgomberocantinecatania.it" target="_blank" style="color: white; text-decoration: underline; font-weight: bold;">sgomberocantinecatania.it</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<a class="whatsapp-float" href="https://wa.me/393497500613?text=Ciao!%20Vorrei%20informazioni%20sul%20vostro%20servizio%20di%20sgombero%20GRATIS!" rel="noopener noreferrer" target="_blank">
+<svg fill="none" height="32" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="32">
+<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+</svg>
+</a>
+<a class="call-float" href="tel:3497500613">
+<svg fill="none" height="32" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="32">
+<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+</svg>
+</a>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-section">
+<h3 class="footer-title gradient-text">STR Sgomberi</h3>
+<p class="footer-description">
+Il PRIMO servizio di sgombero GRATIS a Catania in cambio di merce di valore. 
+La rete più specializzata della Sicilia con sgomberocatania.it, sgomberosicilia.it, sgomberocantinecatania.it
+</p>
+<div class="footer-buttons">
+<a class="footer-btn footer-btn-call" href="tel:3497500613">Chiama Ora</a>
+<a class="footer-btn footer-btn-whatsapp" href="https://wa.me/393497500613">WhatsApp</a>
+</div>
+</div>
+<div class="footer-section">
+<h4 class="footer-subtitle">I Nostri Servizi Rivoluzionari</h4>
+<ul class="footer-list">
+<li>• Sgombero GRATIS in Cambio Merce</li>
+<li>• Valutazione Antiquariato Gratuita</li>
+<li>• Sgombero Appartamenti Premium</li>
+<li>• Sgombero Cantine Specializzato</li>
+<li>• Copertura Sicilia Completa</li>
+</ul>
+</div>
+<div class="footer-section">
+<h4 class="footer-subtitle">Contatti & Rete Specializzata</h4>
+<div class="footer-contact">
+<p class="footer-phone">
+<svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20">
+<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+</svg>
+<span class="phone-highlight">3497500613</span>
+</p>
+<p>📍 Catania e Tutta la Sicilia</p>
+<p>🕒 Disponibili 7 giorni su 7</p>
+<p>💰 Valutazione e Sgombero GRATIS</p>
+<p style="margin-top: 15px;"><strong>La Nostra Rete:</strong></p>
+<p>🌐 <a href="https://sgomberocatania.it" target="_blank" style="color: #10b981;">sgomberocatania.it</a></p>
+<p>🌐 <a href="https://sgomberosicilia.it" target="_blank" style="color: #10b981;">sgomberosicilia.it</a></p>
+<p>🌐 <a href="https://sgomberocantinecatania.it" target="_blank" style="color: #10b981;">sgomberocantinecatania.it</a></p>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<p>&copy; 2024 STR Sgomberi - Il Migliore Servizio di Sgombero GRATIS a Catania. Tutti i diritti riservati.</p>
+<p style="margin-top: 10px; font-size: 14px; opacity: 0.8;">
+Rete specializzata: <a href="https://cataniasgombero.it" style="color: #10b981;">cataniasgombero.it</a> | 
+<a href="https://sgomberocatania.it" target="_blank" style="color: #10b981;">sgomberocatania.it</a> | 
+<a href="https://sgomberosicilia.it" target="_blank" style="color: #10b981;">sgomberosicilia.it</a> | 
+<a href="https://sgomberocantinecatania.it" target="_blank" style="color: #10b981;">sgomberocantinecatania.it</a>
+</p>
+</div>
+</div>
+</footer>
+<script src="js/script.js"></script>
+</body>
+</html>
