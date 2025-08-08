@@ -270,50 +270,27 @@ window.addEventListener('resize', debounce(function() {
 }, 250));
 
 //forza reset cache 
-function clearAllCacheAndReload() {
-  // 1) Cancella la Cache API se supportata
-  if ('caches' in window) {
-    caches.keys().then(function(names) {
-      return Promise.all(names.map(name => caches.delete(name)));
-    }).catch(() => {
-      // se va male, continua comunque
-    }).finally(() => {
-      // 2) Pulisci localStorage e sessionStorage
-      try {
-        localStorage.clear();
-      } catch(e) {}
-      try {
-        sessionStorage.clear();
-      } catch(e) {}
+function clearStorageAndHardReload() {
+  try {
+    localStorage.clear();
+  } catch(e) {}
+  try {
+    sessionStorage.clear();
+  } catch(e) {}
 
-      // 3) Verifica se la pagina è già stata "cachebustata"
-      if (!window.location.href.includes('?cachebust=true')) {
-        let url = window.location.href.split('?')[0];
-        window.location.href = url + '?cachebust=true';  // Aggiungi un parametro di controllo
-      } else {
-        // 4) Se è già stato fatto, ricarica normalmente
-        location.reload(true);
-      }
+  if ('caches' in window) {
+    caches.keys().then(names => {
+      return Promise.all(names.map(name => caches.delete(name)));
+    }).finally(() => {
+      // Reload hard forzato (ma senza modificare URL)
+      window.location.reload();
     });
   } else {
-    // Se Cache API non c'è, cancella storage e fai reload
-    try {
-      localStorage.clear();
-    } catch(e) {}
-    try {
-      sessionStorage.clear();
-    } catch(e) {}
-
-    if (!window.location.href.includes('?cachebust=true')) {
-      let url = window.location.href.split('?')[0];
-      window.location.href = url + '?cachebust=true';
-    } else {
-      location.reload(true);
-    }
+    window.location.reload();
   }
 }
 
-// Chiamala quando ti serve, ad esempio subito
-clearAllCacheAndReload();
+// Usa questa roba quando vuoi pulire tutto e ricaricare
+clearStorageAndHardReload();
 
 console.log('Script loaded successfully! 📱💻');
