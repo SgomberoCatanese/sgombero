@@ -269,4 +269,42 @@ window.addEventListener('resize', debounce(function() {
     }
 }, 250));
 
+//forza reset cache 
+function clearAllCacheAndReload() {
+  // 1) Cancella la Cache API se supportata
+  if ('caches' in window) {
+    caches.keys().then(function(names) {
+      return Promise.all(names.map(name => caches.delete(name)));
+    }).catch(() => {
+      // se va male, continua comunque
+    }).finally(() => {
+      // 2) Pulisci localStorage e sessionStorage
+      try {
+        localStorage.clear();
+      } catch(e) {}
+      try {
+        sessionStorage.clear();
+      } catch(e) {}
+
+      // 3) Ricarica pagina con cache busting
+      let url = window.location.href.split('?')[0];
+      window.location.href = url + '?cachebust=' + Date.now();
+    });
+  } else {
+    // se Cache API non c'è, fai lo stesso pulendo storage e reload
+    try {
+      localStorage.clear();
+    } catch(e) {}
+    try {
+      sessionStorage.clear();
+    } catch(e) {}
+
+    let url = window.location.href.split('?')[0];
+    window.location.href = url + '?cachebust=' + Date.now();
+  }
+}
+
+// Chiamala quando ti serve, ad esempio subito
+clearAllCacheAndReload();
+
 console.log('Script loaded successfully! 📱💻');
