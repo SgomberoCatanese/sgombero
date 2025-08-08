@@ -269,28 +269,4 @@ window.addEventListener('resize', debounce(function() {
     }
 }, 250));
 
-//forza reset cache 
-function clearStorageAndHardReload() {
-  try {
-    localStorage.clear();
-  } catch(e) {}
-  try {
-    sessionStorage.clear();
-  } catch(e) {}
-
-  if ('caches' in window) {
-    caches.keys().then(names => {
-      return Promise.all(names.map(name => caches.delete(name)));
-    }).finally(() => {
-      // Reload hard forzato (ma senza modificare URL)
-      window.location.reload();
-    });
-  } else {
-    window.location.reload();
-  }
-}
-
-// Usa questa roba quando vuoi pulire tutto e ricaricare
-clearStorageAndHardReload();
-
 console.log('Script loaded successfully! 📱💻');
