@@ -43,8 +43,8 @@ function initializeMobileMenu() {
             }
         });
         
-        // Close menu when clicking on a link
-        const mobileNavLinks = mobileMenu.querySelectorAll('.mobile-nav-link, .mobile-phone-btn');
+        // Close menu when clicking on a link (excluding dropdown buttons)
+        const mobileNavLinks = mobileMenu.querySelectorAll('.mobile-nav-link:not(.dropdown-btn), .mobile-phone-btn');
         mobileNavLinks.forEach(link => {
             link.addEventListener('click', function() {
                 mobileMenuBtn.classList.remove('active');
@@ -66,23 +66,37 @@ function initializeMobileMenu() {
 
 // Dropdown functionality
 function initializeDropdown() {
-    const dropdown = document.querySelector('.dropdown');
-    const dropdownBtn = document.querySelector('.dropdown-btn');
-    const dropdownMenu = document.querySelector('.dropdown-menu');
+    const dropdowns = document.querySelectorAll('.dropdown');
     
-    if (dropdown && dropdownBtn && dropdownMenu) {
-        dropdownBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            dropdown.classList.toggle('active');
-        });
+    dropdowns.forEach(dropdown => {
+        const dropdownBtn = dropdown.querySelector('.dropdown-btn');
         
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!dropdown.contains(e.target)) {
-                dropdown.classList.remove('active');
-            }
-        });
-    }
+        if (dropdownBtn) {
+            dropdownBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Close other open dropdowns
+                dropdowns.forEach(d => {
+                    if (d !== dropdown) {
+                        d.classList.remove('active');
+                    }
+                });
+                // Toggle current dropdown
+                dropdown.classList.toggle('active');
+            });
+        }
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        const isDropdownButton = e.target.closest('.dropdown-btn');
+        if (!isDropdownButton) {
+            dropdowns.forEach(dropdown => {
+                if (!dropdown.contains(e.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        }
+    });
 }
 
 // Floating particles effect
@@ -158,41 +172,58 @@ function initializeSmoothScrolling() {
 
 // Populate comuni dropdown
 function initializeComuni() {
-    const comuniGrid = document.getElementById('comuni-grid');
+    const comuniGridDesktop = document.getElementById('comuni-grid');
+    const comuniGridMobile = document.getElementById('comuni-grid-mobile');
     
-    if (comuniGrid) {
-        const comuni = [
-            'Catania', 'Acireale', 'Adrano', 'Belpasso', 'Biancavilla',
-            'Bronte', 'Caltagirone', 'Giarre', 'Gravina di Catania', 'Mascalucia',
-            'Misterbianco', 'Paternò', 'Randazzo', 'Riposto', 'San Giovanni la Punta',
-            'San Pietro Clarenza', 'Sant\'Agata li Battiati', 'Tremestieri Etneo',
-            'Aci Castello', 'Aci Catena', 'Aci Sant\'Antonio', 'Aci Bonaccorsi',
-            'Nicolosi', 'Pedara', 'Trecastagni', 'Viagrande', 'Zafferana Etnea'
-        ];
-        
-        comuni.forEach(comune => {
-            const link = document.createElement('a');
-            link.href = `#servizi`;
-            link.textContent = comune;
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                // Close dropdown
-                document.querySelector('.dropdown').classList.remove('active');
-                // Scroll to services
-                const servicesSection = document.getElementById('servizi');
-                if (servicesSection) {
-                    const headerHeight = document.getElementById('header').offsetHeight;
-                    const targetPosition = servicesSection.offsetTop - headerHeight - 20;
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
+    const comuni = [
+        'Catania', 'Acireale', 'Adrano', 'Belpasso', 'Biancavilla',
+        'Bronte', 'Caltagirone', 'Giarre', 'Gravina di Catania', 'Mascalucia',
+        'Misterbianco', 'Paternò', 'Randazzo', 'Riposto', 'San Giovanni la Punta',
+        'San Pietro Clarenza', 'Sant\'Agata li Battiati', 'Tremestieri Etneo',
+        'Aci Castello', 'Aci Catena', 'Aci Sant\'Antonio', 'Aci Bonaccorsi',
+        'Nicolosi', 'Pedara', 'Trecastagni', 'Viagrande', 'Zafferana Etnea'
+    ];
+    
+    const populateGrid = (gridElement) => {
+        if (gridElement) {
+            comuni.forEach(comune => {
+                const link = document.createElement('a');
+                link.href = `#servizi`;
+                link.textContent = comune;
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Close dropdown
+                    const dropdown = this.closest('.dropdown');
+                    if (dropdown) {
+                        dropdown.classList.remove('active');
+                    }
+                    // Close mobile menu if open
+                    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (mobileMenuBtn && mobileMenu) {
+                        mobileMenuBtn.classList.remove('active');
+                        mobileMenu.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                    // Scroll to services
+                    const servicesSection = document.getElementById('servizi');
+                    if (servicesSection) {
+                        const headerHeight = document.getElementById('header').offsetHeight;
+                        const targetPosition = servicesSection.offsetTop - headerHeight - 20;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+                gridElement.appendChild(link);
             });
-            comuniGrid.appendChild(link);
-        });
-    }
+        }
+    };
+    
+    populateGrid(comuniGridDesktop);
+    populateGrid(comuniGridMobile);
 }
 
 // Intersection Observer for animations
