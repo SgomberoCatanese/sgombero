@@ -286,12 +286,17 @@ function clearAllCacheAndReload() {
         sessionStorage.clear();
       } catch(e) {}
 
-      // 3) Ricarica pagina con cache busting
-      let url = window.location.href.split('?')[0];
-      window.location.href = url + '?cachebust=' + Date.now();
+      // 3) Verifica se la pagina è già stata "cachebustata"
+      if (!window.location.href.includes('?cachebust=true')) {
+        let url = window.location.href.split('?')[0];
+        window.location.href = url + '?cachebust=true';  // Aggiungi un parametro di controllo
+      } else {
+        // 4) Se è già stato fatto, ricarica normalmente
+        location.reload(true);
+      }
     });
   } else {
-    // se Cache API non c'è, fai lo stesso pulendo storage e reload
+    // Se Cache API non c'è, cancella storage e fai reload
     try {
       localStorage.clear();
     } catch(e) {}
@@ -299,8 +304,12 @@ function clearAllCacheAndReload() {
       sessionStorage.clear();
     } catch(e) {}
 
-    let url = window.location.href.split('?')[0];
-    window.location.href = url + '?cachebust=' + Date.now();
+    if (!window.location.href.includes('?cachebust=true')) {
+      let url = window.location.href.split('?')[0];
+      window.location.href = url + '?cachebust=true';
+    } else {
+      location.reload(true);
+    }
   }
 }
 
